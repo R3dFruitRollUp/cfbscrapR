@@ -29,7 +29,7 @@ issues here or to <https://collegefootballdata.com/>.
 ## Installation
 
 You can install `cfbscrapR` from
-[GitHub](https://github.com/saiemgilani/cfbscrapR) with:
+[GitHub](https://github.com/meysubb/cfbscrapR) with:
 
 ``` r
 # install.packages("devtools")
