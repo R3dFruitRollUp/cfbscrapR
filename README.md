@@ -33,7 +33,7 @@ You can install `cfbscrapR` from
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("saiemgilani/cfbscrapR")
+devtools::install_github("meysubb/cfbscrapR")
 ```
 
 For more information on the package and models, please see the
