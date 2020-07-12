@@ -11,8 +11,7 @@ build-status](https://travis-ci.com/saiemgilani/cfbscrapR.svg?token=BxsozfUD3VCv
 
 # cfbscrapR
 
-A scraping and aggregating package using the CollegeFootballData
-API
+A scraping and aggregating package using the CollegeFootballData API
 
 <a href="https://imgur.com/jBcXRgw"><img src="https://i.imgur.com/jBcXRgw.png" title="Figure: @SaiemGilani" /></a>
 
@@ -30,14 +29,11 @@ issues here or to <https://collegefootballdata.com/>.
 ## Installation
 
 You can install `cfbscrapR` from
-[GitHub](https://github.com/saiemgilani/cfbscrapR)
-with:
+[GitHub](https://github.com/saiemgilani/cfbscrapR) with:
 
 ``` r
-# Then can install using the devtools package from either of the following:
-devtools::install_github(repo = "saiemgilani/cfbscrapR")
-# or the following (these are the exact same packages):
-devtools::install_github(repo = "meysubb/cfbscrapR")
+# install.packages("devtools")
+devtools::install_github("meysubb/cfbscrapR")
 ```
 
 For more information on the package and models, please see the
