@@ -17,6 +17,7 @@
 #' @importFrom utils "URLencode"
 #' @importFrom utils "globalVariables"
 #' @export
+#' 
 #'
 
 cfb_pbp_data <- function(year,
@@ -26,9 +27,19 @@ cfb_pbp_data <- function(year,
                          play_type = NULL,
                          epa_wpa=FALSE) {
   options(stringsAsFactors = FALSE)
+  # Check if year is numeric, if not NULL
+  assertthat::assert_that(is.numeric(year) & nchar(year) == 4,
+                          msg = 'Enter valid year as a number (YYYY)')
+  assertthat::assert_that(is.numeric(week) & nchar(week) <= 2,
+                          msg = 'Enter valid week 1-15 \n(14 for seasons pre-playoff, i.e. 2014 or earlier)')
   if(!is.null(team)){
     # Encode team parameter for URL if not NULL
     team = utils::URLencode(team, reserved = TRUE)
+  }
+  if(season_type != 'regular'){
+    # Check if season_type is appropriate, if not regular
+    assertthat::assert_that(season_type %in% c('postseason','both'),
+                            msg = 'Enter valid season_type: regular, postseason, or both')
   }
   if(!is.null(play_type)){
     text <- play_type %in% cfbscrapR::cfb_play_type_df$text
@@ -471,7 +482,8 @@ clean_pbp_dat <- function(raw_df) {
         .data$play_type == "Pass Reception" |
           .data$play_type == "Pass Completion" |
           .data$play_type == "Passing Touchdown" |
-          .data$play_type == "Sack" |
+          .data$play_type == "Sack" | .data$play_type == "Pass" |
+          .data$play_type == "Interception" |
           .data$play_type == "Pass Interception Return" |
           .data$play_type == "Interception Return Touchdown" |
           (.data$play_type == "Pass Incompletion" & !is.na(.data$play_text)) |
@@ -485,12 +497,20 @@ clean_pbp_dat <- function(raw_df) {
               str_detect(.data$play_text, regex("pass", ignore_case = TRUE)) & !is.na(.data$play_text)
           ) |
           (
+            .data$play_type == "Fumble Recovery (Own)" &
+              str_detect(.data$play_text, regex("sacked", ignore_case = TRUE)) & !is.na(.data$play_text)
+          ) |
+          (
             .data$play_type == "Fumble Recovery (Own) Touchdown" &
               str_detect(.data$play_text, regex("pass", ignore_case = TRUE)) & !is.na(.data$play_text)
           ) |
           (
             .data$play_type == "Fumble Recovery (Opponent)" &
               str_detect(.data$play_text, regex("pass", ignore_case = TRUE)) & !is.na(.data$play_text)
+          ) |
+          (
+            .data$play_type == "Fumble Recovery (Opponent)" &
+              str_detect(.data$play_text, regex("sacked", ignore_case = TRUE)) & !is.na(.data$play_text)
           ) |
           (
             .data$play_type == "Fumble Recovery (Opponent) Touchdown" &
@@ -555,7 +575,9 @@ clean_pbp_dat <- function(raw_df) {
                          str_detect(.data$play_text, regex("fumbled", ignore_case = TRUE)) &
                          str_detect(.data$play_text, regex("TD",ignore_case = TRUE)) &
                          !is.na(.data$play_text), 
-                         "Sack Touchdown", .data$play_type)   
+                         "Sack Touchdown", .data$play_type),
+      play_type = ifelse(.data$play_type == "Interception", "Interception Return", .data$play_type),
+      play_type = ifelse(.data$play_type == "Pass Interception Return", "Interception Return", .data$play_type)
     ) %>% dplyr::select(-.data$td_check,-.data$td_play)
   return(raw_df)
 }
