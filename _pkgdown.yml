@@ -26,7 +26,7 @@ authors:
   
 home:
 navbar:
-  icon: https://imgur.com/JdMII7N
+  icon: https://raw.githubusercontent.com/saiemgilani/cfbscrapR/master/man/figures/cfbscrapR.ico
   title: "cfbscrapR"
   left:
     - icon: fa-home
@@ -38,12 +38,12 @@ navbar:
         href: articles/index.html
       - text: Introductory
       - text: CFB Analytics with cfbscrapR
-        href: articles/Intro.html
+        href: articles/intro.html
       - text: Animated Win Probability Plots
         href: articles/Animated-WP-Plotting.html
       - text: Fourth Down Tendency Plots
-        href: articles/Fourth-Down-Plot-Tutorial.html
-      - text: Rolling EPA s
+        href: articles/fourth-down-plot-tutorial.html
+      - text: Rolling EPA Graphs
         href: articles/Rolling-EPA-Graph.html
       - text: Expected Points Model Fundamentals
       - text: "Part 1 - Model Definition"
@@ -157,6 +157,8 @@ reference:
   - subtitle: Internals
     desc: Internal functions and helpers
     contents:
+      - '`ep_fg_model_select`'
+      - '`get_preds_ep`'
       - '`create_epa`'
       - '`epa_fg_probs`'
       - '`create_wpa_naive`'
